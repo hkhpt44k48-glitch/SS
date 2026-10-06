@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sofi Soft</title>
+
+<style>
+:root{
+    --rosa:#e7a8c2;
+    --rosa-claro:#fff2f7;
+    --rosa-medio:#d985a8;
+    --rosa-oscuro:#a94f76;
+    --blanco:#fff;
+    --texto:#51434a;
+    --gris:#f8f6f7;
+    --borde:#eadce2;
+    --verde:#8bb89d;
+    --rojo:#c97878;
+    --amarillo:#e0b45d;
+    --sombra:0 4px 15px rgba(169,79,118,.10);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--gris);
+    color:var(--texto);
+}
+
+header{
+    background:linear-gradient(135deg,var(--rosa),#f4c9d9);
+    color:white;
+    padding:20px 15px;
+    text-align:center;
+    box-shadow:var(--sombra);
+}
+
+header h1{
+    margin:0;
+    font-size:28px;
+}
+
+header p{
+    margin:6px 0 0;
+    font-size:14px;
+}
+
+nav{
+    display:flex;
+    overflow-x:auto;
+    background:white;
+    border-bottom:1px solid var(--borde);
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+nav button{
+    flex:0 0 auto;
+    border:0;
+    background:white;
+    color:var(--texto);
+    padding:13px 14px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+nav button:hover,
+nav button.activo{
+    background:var(--rosa-claro);
+    color:var(--rosa-oscuro);
+}
+
+main{
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+.seccion{
+    display:none;
+}
+
+.seccion.activa{
+    display:block;
+}
+
+.titulo-seccion{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+h2, h3{
+    color:var(--rosa-oscuro);
+    margin:0;
+}
+
+.card{
+    background:white;
+    border:1px solid var(--borde);
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:var(--sombra);
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;
+}
+
+.indicador{
+    background:white;
+    border:1px solid var(--borde);
+    border-radius:15px;
+    padding:18px;
+    text-align:center;
+    box-shadow:var(--sombra);
+}
+
+.indicador .numero{
+    display:block;
+    font-size:28px;
+    font-weight:bold;
+    color:var(--rosa-oscuro);
+    margin-top:5px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px;
+}
+
+label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:5px;
+    color:var(--rosa-oscuro);
+}
+
+input, select, textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid var(--borde);
+    border-radius:9px;
+    background:white;
+    color:var(--texto);
+    font-size:15px;
+}
+
+textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+button{
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn{ background:var(--rosa-medio); color:white; }
+.btn:hover{ background:var(--rosa-oscuro); }
+.btn-verde{ background:var(--verde); color:white; }
+.btn-rojo{ background:var(--rojo); color:white; }
+.btn-gris{ background:#eee7ea; color:var(--texto); }
+.btn-amarillo{ background:var(--amarillo); color:white; }
+.btn-wsp{ background:#25d366; color:white; }
+
+form .acciones{
+    margin-top:14px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.lista{
+    display:grid;
+    gap:10px;
+}
+
+.item{
+    border:1px solid var(--borde);
+    border-radius:12px;
+    padding:13px;
+    background:#fff;
+}
+
+.item-cabecera{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:flex-start;
+}
+
+.item strong{ color:var(--rosa-oscuro); }
+.item small{ color:#777; }
+
+.acciones-item{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    background:var(--rosa-claro);
+    color:var(--rosa-oscuro);
+}
+
+.badge-verde{ background:#edf7f0; color:#4d8b62; }
+.badge-rojo{ background:#fff0f0; color:#a94d4d; }
+.badge-amarillo{ background:#fff8e8; color:#9c772b; }
+
+.resumen-finanzas{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.resumen-box{
+    background:white;
+    border-radius:14px;
+    padding:16px;
+    border:1px solid var(--borde);
+    box-shadow:var(--sombra);
+}
+
+.resumen-box .valor{
+    font-size:24px;
+    font-weight:bold;
+    margin-top:6px;
+}
+
+.ingreso{ color:#4d8b62; }
+.egreso{ color:#b35555; }
+.ganancia{ color:var(--rosa-oscuro); }
+.vacio{ text-align:center; padding:25px; color:#888; }
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#999;
+    font-size:12px;
+}
+
+@media(max-width:600px){
+    main{ padding:12px; }
+    .card{ padding:14px; }
+    header h1{ font-size:24px; }
+    nav button{ padding:11px 10px; font-size:12px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>💗 Sofi Soft</h1>
+    <p>Agenda · Clientas · Servicios · Productos · Finanzas</p>
+</header>
+
+<nav>
+    <button onclick="mostrarSeccion('inicio')" class="activo">Inicio</button>
+    <button onclick="mostrarSeccion('turnos')">Turnos</button>
+    <button onclick="mostrarSeccion('clientas')">Clientas</button>
+    <button onclick="mostrarSeccion('servicios')">Servicios</button>
+    <button onclick="mostrarSeccion('productos')">Productos</button>
+    <button onclick="mostrarSeccion('finanzas')">Finanzas</button>
+    <button onclick="mostrarSeccion('promociones')">Promos</button>
+</nav>
+
+<main>
+
+<!-- ================= INICIO ================= -->
+<section id="inicio" class="seccion activa">
+    <div class="titulo-seccion">
+        <h2>Inicio</h2>
+    </div>
+
+    <div class="dashboard">
+        <div class="indicador">
+            <div>Turnos</div>
+            <span class="numero" id="contadorTurnos">0</span>
+        </div>
+        <div class="indicador">
+            <div>Clientas</div>
+            <span class="numero" id="contadorClientas">0</span>
+        </div>
+        <div class="indicador">
+            <div>Servicios</div>
+            <span class="numero" id="contadorServicios">0</span>
+        </div>
+        <div class="indicador">
+            <div>Productos</div>
+            <span class="numero" id="contadorProductos">0</span>
+        </div>
+        <div class="indicador">
+            <div>Ingresos</div>
+            <span class="numero" id="contadorIngresos">$0</span>
+        </div>
+        <div class="indicador">
+            <div>Ganancia estimada</div>
+            <span class="numero" id="contadorGanancia">$0</span>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+        <h3>💗 Bienvenida a Sofi Soft</h3>
+        <p>Desde acá podés administrar tu agenda, clientas, finanzas y promociones fácilmente.</p>
+    </div>
+
+    <div class="card">
+        <h3>💾 Copia de Seguridad</h3>
+        <p><small>Descargá un respaldo de tus datos para tener de reserva o transferirlo a otro dispositivo.</small></p>
+        <div class="acciones">
+            <button class="btn" onclick="exportarDatos()">Descargar Backup (JSON)</button>
+            <button class="btn-gris" onclick="document.getElementById('fileBackup').click()">Restaurar Backup</button>
+            <input type="file" id="fileBackup" accept=".json" style="display:none" onchange="importarDatos(event)">
+        </div>
+    </div>
+</section>
+
+<!-- ================= TURNOS ================= -->
+<section id="turnos" class="seccion">
+    <div class="titulo-seccion">
+        <h2>📅 Turnos</h2>
+    </div>
+
+    <div class="card">
+        <h3>Nuevo turno</h3>
+        <form onsubmit="guardarTurno(event)">
+            <div class="grid">
+                <div>
+                    <label>Clienta</label>
+                    <select id="turnoClienta" required></select>
+                </div>
+                <div>
+                    <label>Servicio</label>
+                    <select id="turnoServicio" required></select>
+                </div>
+                <div>
+                    <label>Fecha</label>
+                    <input type="date" id="turnoFecha" required>
+                </div>
+                <div>
+                    <label>Hora</label>
+                    <input type="time" id="turnoHora" required>
+                </div>
+                <div>
+                    <label>Estado</label>
+                    <select id="turnoEstado">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Confirmado">Confirmado</option>
+                        <option value="Realizado">Realizado</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Observaciones</label>
+                    <input type="text" id="turnoObservaciones">
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Guardar turno</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Turnos registrados</h3>
+        <div style="margin-bottom: 12px; margin-top: 10px;">
+            <label>Filtrar por estado:</label>
+            <select id="filtroEstadoTurno" onchange="mostrarTurnos()">
+                <option value="Todos">Todos</option>
+                <option value="Pendiente">Pendientes</option>
+                <option value="Confirmado">Confirmados</option>
+                <option value="Realizado">Realizados</option>
+                <option value="Cancelado">Cancelados</option>
+            </select>
+        </div>
+        <div id="listaTurnos" class="lista"></div>
+    </div>
+</section>
+
+<!-- ================= CLIENTAS ================= -->
+<section id="clientas" class="seccion">
+    <div class="titulo-seccion">
+        <h2>👩 Clientas</h2>
+    </div>
+
+    <div class="card">
+        <h3>Nueva clienta</h3>
+        <form onsubmit="guardarClienta(event)">
+            <div class="grid">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" id="clientaNombre" required>
+                </div>
+                <div>
+                    <label>Teléfono (solo números, ej: 5491122334455)</label>
+                    <input type="tel" id="clientaTelefono" placeholder="54911...">
+                </div>
+                <div>
+                    <label>Observaciones</label>
+                    <input type="text" id="clientaObservaciones">
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Guardar clienta</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Buscar clienta</h3>
+        <input type="text" id="buscarClienta" placeholder="Escribí un nombre..." oninput="mostrarClientas()">
+    </div>
+
+    <div class="card">
+        <h3>Listado</h3>
+        <div id="listaClientas" class="lista"></div>
+    </div>
+</section>
+
+<!-- ================= SERVICIOS ================= -->
+<section id="servicios" class="seccion">
+    <div class="titulo-seccion">
+        <h2>💅 Servicios</h2>
+    </div>
+
+    <div class="card">
+        <h3>Nuevo servicio</h3>
+        <form onsubmit="guardarServicio(event)">
+            <div class="grid">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" id="servicioNombre" required>
+                </div>
+                <div>
+                    <label>Precio</label>
+                    <input type="number" id="servicioPrecio" min="0" step="0.01" required>
+                </div>
+                <div>
+                    <label>Duración (minutos)</label>
+                    <input type="number" id="servicioDuracion" min="0">
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Guardar servicio</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Servicios registrados</h3>
+        <div id="listaServicios" class="lista"></div>
+    </div>
+</section>
+
+<!-- ================= PRODUCTOS ================= -->
+<section id="productos" class="seccion">
+    <div class="titulo-seccion">
+        <h2>🛍️ Productos</h2>
+    </div>
+
+    <div class="card">
+        <h3>Nuevo producto</h3>
+        <form onsubmit="guardarProducto(event)">
+            <div class="grid">
+                <div>
+                    <label>Producto</label>
+                    <input type="text" id="productoNombre" required>
+                </div>
+                <div>
+                    <label>Precio</label>
+                    <input type="number" id="productoPrecio" min="0" step="0.01" required>
+                </div>
+                <div>
+                    <label>Stock</label>
+                    <input type="number" id="productoStock" min="0" value="0">
+                </div>
+                <div>
+                    <label>Disponibilidad</label>
+                    <select id="productoDisponibilidad">
+                        <option value="Disponible">Disponible</option>
+                        <option value="Por encargo">Por encargo</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Imagen (opcional URL)</label>
+                    <input type="text" id="productoImagen" placeholder="https://...">
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Guardar producto</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Productos registrados</h3>
+        <div id="listaProductos" class="lista"></div>
+    </div>
+</section>
+
+<!-- ================= FINANZAS ================= -->
+<section id="finanzas" class="seccion">
+    <div class="titulo-seccion">
+        <h2>💰 Finanzas</h2>
+    </div>
+
+    <div class="card">
+        <h3>Período</h3>
+        <div class="grid">
+            <div>
+                <label>Desde</label>
+                <input type="date" id="finanzasDesde" onchange="actualizarFinanzas()">
+            </div>
+            <div>
+                <label>Hasta</label>
+                <input type="date" id="finanzasHasta" onchange="actualizarFinanzas()">
+            </div>
+        </div>
+        <div class="acciones">
+            <button class="btn-gris" onclick="periodoHoy()">Hoy</button>
+            <button class="btn-gris" onclick="periodoSemana()">Esta semana</button>
+            <button class="btn-gris" onclick="periodoMes()">Este mes</button>
+            <button class="btn" onclick="periodoTodo()">Todo</button>
+        </div>
+    </div>
+
+    <div class="resumen-finanzas">
+        <div class="resumen-box">
+            <div>Ingresos</div>
+            <div class="valor ingreso" id="resumenIngresos">$0</div>
+        </div>
+        <div class="resumen-box">
+            <div>Gastos</div>
+            <div class="valor egreso" id="resumenGastos">$0</div>
+        </div>
+        <div class="resumen-box">
+            <div>Ganancia</div>
+            <div class="valor ganancia" id="resumenGanancia">$0</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>➕ Registrar ingreso / pago</h3>
+        <form onsubmit="guardarIngreso(event)">
+            <div class="grid">
+                <div>
+                    <label>Fecha</label>
+                    <input type="date" id="ingresoFecha" required>
+                </div>
+                <div>
+                    <label>Clienta</label>
+                    <select id="ingresoClienta"><option value="">Sin clienta</option></select>
+                </div>
+                <div>
+                    <label>Servicio</label>
+                    <select id="ingresoServicio"><option value="">Otro / producto</option></select>
+                </div>
+                <div>
+                    <label>Concepto</label>
+                    <input type="text" id="ingresoConcepto" placeholder="Ej.: Manicura">
+                </div>
+                <div>
+                    <label>Importe</label>
+                    <input type="number" id="ingresoMonto" min="0" step="0.01" required>
+                </div>
+                <div>
+                    <label>Medio de pago</label>
+                    <select id="ingresoMedio">
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Mercado Pago">Mercado Pago</option>
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn-verde" type="submit">Registrar ingreso</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>➖ Registrar gasto</h3>
+        <form onsubmit="guardarGasto(event)">
+            <div class="grid">
+                <div>
+                    <label>Fecha</label>
+                    <input type="date" id="gastoFecha" required>
+                </div>
+                <div>
+                    <label>Concepto</label>
+                    <input type="text" id="gastoConcepto" required placeholder="Ej.: Compra de esmaltes">
+                </div>
+                <div>
+                    <label>Categoría</label>
+                    <select id="gastoCategoria">
+                        <option value="Insumos">Insumos</option>
+                        <option value="Productos">Productos</option>
+                        <option value="Alquiler">Alquiler</option>
+                        <option value="Servicios">Servicios</option>
+                        <option value="Publicidad">Publicidad</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Importe</label>
+                    <input type="number" id="gastoMonto" min="0" step="0.01" required>
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn-rojo" type="submit">Registrar gasto</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>🧴 Insumos</h3>
+        <form onsubmit="guardarInsumo(event)">
+            <div class="grid">
+                <div>
+                    <label>Insumo</label>
+                    <input type="text" id="insumoNombre" required placeholder="Ej.: Esmalte">
+                </div>
+                <div>
+                    <label>Cantidad</label>
+                    <input type="number" id="insumoCantidad" min="0" step="0.01" required>
+                </div>
+                <div>
+                    <label>Costo unitario</label>
+                    <input type="number" id="insumoCosto" min="0" step="0.01" required>
+                </div>
+                <div>
+                    <label>Unidad</label>
+                    <input type="text" id="insumoUnidad" placeholder="unidades, ml, etc.">
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Guardar insumo</button>
+            </div>
+        </form>
+        <div id="listaInsumos" class="lista" style="margin-top:15px;"></div>
+    </div>
+
+    <div class="card">
+        <h3>📊 Detalle de ingresos</h3>
+        <div id="listaIngresos" class="lista"></div>
+    </div>
+
+    <div class="card">
+        <h3>📉 Detalle de gastos</h3>
+        <div id="listaGastos" class="lista"></div>
+    </div>
+</section>
+
+<!-- ================= PROMOCIONES ================= -->
+<section id="promociones" class="seccion">
+    <div class="titulo-seccion">
+        <h2>🎁 Promociones y vouchers</h2>
+    </div>
+
+    <div class="card">
+        <h3>Crear promoción</h3>
+        <form onsubmit="guardarPromocion(event)">
+            <div class="grid">
+                <div>
+                    <label>Nombre de promoción</label>
+                    <input type="text" id="promoNombre" required placeholder="Ej.: Promo amigas">
+                </div>
+                <div>
+                    <label>Tipo</label>
+                    <select id="promoTipo">
+                        <option value="Porcentaje">Descuento %</option>
+                        <option value="2x1">2 x 1</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Valor del descuento (%)</label>
+                    <input type="number" id="promoValor" min="0" max="100" step="1" value="10">
+                </div>
+                <div>
+                    <label>Desde</label>
+                    <input type="date" id="promoDesde">
+                </div>
+                <div>
+                    <label>Hasta</label>
+                    <input type="date" id="promoHasta">
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Crear promoción</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Promociones</h3>
+        <div id="listaPromociones" class="lista"></div>
+    </div>
+
+    <div class="card">
+        <h3>🎟️️ Crear voucher / gift card</h3>
+        <form onsubmit="guardarVoucher(event)">
+            <div class="grid">
+                <div>
+                    <label>Código</label>
+                    <input type="text" id="voucherCodigo" required placeholder="Ej.: SOFI-2026-001">
+                </div>
+                <div>
+                    <label>Destinataria</label>
+                    <input type="text" id="voucherDestinataria" placeholder="Nombre">
+                </div>
+                <div>
+                    <label>Valor</label>
+                    <input type="number" id="voucherValor" min="0" step="0.01" required>
+                </div>
+                <div>
+                    <label>Vencimiento</label>
+                    <input type="date" id="voucherVencimiento">
+                </div>
+            </div>
+            <div class="acciones">
+                <button class="btn" type="submit">Crear voucher</button>
+                <button type="button" class="btn-gris" onclick="generarCodigoVoucher()">Generar código</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Vouchers existentes</h3>
+        <div id="listaVouchers" class="lista"></div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    Sofi Soft · Sistema de gestión
+</footer>
+
+<script>
+/* =====================================================
+   VARIABLES
+===================================================== */
+let turnos = JSON.parse(localStorage.getItem("sofiSoftTurnos")) || [];
+let clientas = JSON.parse(localStorage.getItem("sofiSoftClientas")) || [];
+let servicios = JSON.parse(localStorage.getItem("sofiSoftServicios")) || [];
+let productos = JSON.parse(localStorage.getItem("sofiSoftProductos")) || [];
+let ingresos = JSON.parse(localStorage.getItem("sofiSoftIngresos")) || [];
+let gastos = JSON.parse(localStorage.getItem("sofiSoftGastos")) || [];
+let insumos = JSON.parse(localStorage.getItem("sofiSoftInsumos")) || [];
+let promociones = JSON.parse(localStorage.getItem("sofiSoftPromociones")) || [];
+let vouchers = JSON.parse(localStorage.getItem("sofiSoftVouchers")) || [];
+
+/* =====================================================
+   UTILIDADES
+===================================================== */
+function idNuevo(){
+    return Date.now() + Math.floor(Math.random()*1000);
+}
+
+function hoy(){
+    const fecha = new Date();
+    const año = fecha.getFullYear();
+    const mes = String(fecha.getMonth()+1).padStart(2,"0");
+    const dia = String(fecha.getDate()).padStart(2,"0");
+    return `${año}-${mes}-${dia}`;
+}
+
+function formatear(numero){
+    return new Intl.NumberFormat("es-AR",{
+        style:"currency",
+        currency:"ARS",
+        maximumFractionDigits:2
+    }).format(Number(numero)||0);
+}
+
+function escapar(texto){
+    return String(texto ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function guardarTodo(){
+    localStorage.setItem("sofiSoftTurnos",JSON.stringify(turnos));
+    localStorage.setItem("sofiSoftClientas",JSON.stringify(clientas));
+    localStorage.setItem("sofiSoftServicios",JSON.stringify(servicios));
+    localStorage.setItem("sofiSoftProductos",JSON.stringify(productos));
+    localStorage.setItem("sofiSoftIngresos",JSON.stringify(ingresos));
+    localStorage.setItem("sofiSoftGastos",JSON.stringify(gastos));
+    localStorage.setItem("sofiSoftInsumos",JSON.stringify(insumos));
+    localStorage.setItem("sofiSoftPromociones",JSON.stringify(promociones));
+    localStorage.setItem("sofiSoftVouchers",JSON.stringify(vouchers));
+}
+
+/* =====================================================
+   RESPALDO / BACKUP
+===================================================== */
+function exportarDatos() {
+    const data = { turnos, clientas, servicios, productos, ingresos, gastos, insumos, promociones, vouchers };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `sofi_soft_backup_${hoy()}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function importarDatos(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (confirm("¿Estás segura de restaurar esta copia? Se reemplazarán los datos actuales.")) {
+                turnos = data.turnos || [];
+                clientas = data.clientas || [];
+                servicios = data.servicios || [];
+                productos = data.productos || [];
+                ingresos = data.ingresos || [];
+                gastos = data.gastos || [];
+                insumos = data.insumos || [];
+                promociones = data.promociones || [];
+                vouchers = data.vouchers || [];
+
+                guardarTodo();
+                inicializar();
+                alert("¡Datos restaurados con éxito!");
+            }
+        } catch (err) {
+            alert("El archivo no es un JSON válido de Sofi Soft.");
+        }
+    };
+    reader.readAsText(file);
+}
+
+/* =====================================================
+   NAVEGACIÓN
+===================================================== */
+function mostrarSeccion(nombre){
+    document.querySelectorAll(".seccion").forEach(seccion=>{
+        seccion.classList.remove("activa");
+    });
+
+    const destino = document.getElementById(nombre);
+    if(destino){
+        destino.classList.add("activa");
+    }
+
+    document.querySelectorAll("nav button").forEach(boton=>{
+        boton.classList.remove("activo");
+        if(boton.getAttribute("onclick") === `mostrarSeccion('${nombre}')`){
+            boton.classList.add("activo");
+        }
+    });
+
+    if(nombre === "finanzas"){
+        actualizarFinanzas();
+    }
+}
+
+/* =====================================================
+   CLIENTAS
+===================================================== */
+function guardarClienta(event){
+    event.preventDefault();
+    const nombre = document.getElementById("clientaNombre").value.trim();
+    const telefono = document.getElementById("clientaTelefono").value.trim();
+    const observaciones = document.getElementById("clientaObservaciones").value.trim();
+
+    if(!nombre) return;
+
+    clientas.push({ id:idNuevo(), nombre, telefono, observaciones, fechaCreacion:hoy() });
+
+    guardarTodo();
+    event.target.reset();
+    mostrarClientas();
+    actualizarSelects();
+    actualizarContadores();
+}
+
+function mostrarClientas(){
+    const contenedor = document.getElementById("listaClientas");
+    const busqueda = (document.getElementById("buscarClienta")?.value || "").toLowerCase();
+    const lista = clientas.filter(c => c.nombre.toLowerCase().includes(busqueda));
+
+    if(lista.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay clientas registradas.</div>`;
+        return;
+    }
+
+    contenedor.innerHTML = lista.map(c=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong>${escapar(c.nombre)}</strong><br>
+                    <small>📱 ${escapar(c.telefono || "Sin teléfono")}</small>
+                    ${c.observaciones ? `<br><small>${escapar(c.observaciones)}</small>` : ""}
+                </div>
+            </div>
+            <div class="acciones-item">
+                <button class="btn-rojo" onclick="eliminarClienta(${c.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function eliminarClienta(id){
+    if(!confirm("¿Eliminar esta clienta?")) return;
+    clientas = clientas.filter(c=>c.id !== id);
+    guardarTodo();
+    mostrarClientas();
+    actualizarSelects();
+    actualizarContadores();
+}
+
+/* =====================================================
+   SERVICIOS
+===================================================== */
+function guardarServicio(event){
+    event.preventDefault();
+    const nombre = document.getElementById("servicioNombre").value.trim();
+    const precio = Number(document.getElementById("servicioPrecio").value);
+    const duracion = Number(document.getElementById("servicioDuracion").value) || 0;
+
+    if(!nombre) return;
+
+    servicios.push({ id:idNuevo(), nombre, precio, duracion });
+
+    guardarTodo();
+    event.target.reset();
+    mostrarServicios();
+    actualizarSelects();
+    actualizarContadores();
+}
+
+function mostrarServicios(){
+    const contenedor = document.getElementById("listaServicios");
+    if(servicios.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay servicios registrados.</div>`;
+        return;
+    }
+
+    contenedor.innerHTML = servicios.map(s=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong>${escapar(s.nombre)}</strong><br>
+                    <small>${s.duracion ? s.duracion + " min · " : ""}${formatear(s.precio)}</small>
+                </div>
+            </div>
+            <div class="acciones-item">
+                <button class="btn-rojo" onclick="eliminarServicio(${s.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function eliminarServicio(id){
+    if(!confirm("¿Eliminar este servicio?")) return;
+    servicios = servicios.filter(s=>s.id !== id);
+    guardarTodo();
+    mostrarServicios();
+    actualizarSelects();
+    actualizarContadores();
+}
+
+/* =====================================================
+   PRODUCTOS
+===================================================== */
+function guardarProducto(event){
+    event.preventDefault();
+    const nombre = document.getElementById("productoNombre").value.trim();
+    const precio = Number(document.getElementById("productoPrecio").value);
+    const stock = Number(document.getElementById("productoStock").value) || 0;
+    const disponibilidad = document.getElementById("productoDisponibilidad").value;
+    const imagen = document.getElementById("productoImagen").value.trim();
+
+    if(!nombre) return;
+
+    productos.push({ id:idNuevo(), nombre, precio, stock, disponibilidad, imagen });
+
+    guardarTodo();
+    event.target.reset();
+    mostrarProductos();
+    actualizarContadores();
+}
+
+function mostrarProductos(){
+    const contenedor = document.getElementById("listaProductos");
+    if(productos.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay productos registrados.</div>`;
+        return;
+    }
+
+    contenedor.innerHTML = productos.map(p=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    ${p.imagen ? `<img src="${escapar(p.imagen)}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;margin-bottom:8px;"><br>` : ""}
+                    <strong>${escapar(p.nombre)}</strong><br>
+                    <small>
+                        ${formatear(p.precio)} · Stock: 
+                        <span class="${p.stock <= 2 ? 'badge badge-rojo' : ''}">
+                            ${p.stock} ${p.stock <= 2 ? '⚠️ ¡Poco stock!' : ''}
+                        </span>
+                    </small>
+                </div>
+                <span class="badge">${escapar(p.disponibilidad)}</span>
+            </div>
+            <div class="acciones-item">
+                <button class="btn-rojo" onclick="eliminarProducto(${p.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function eliminarProducto(id){
+    if(!confirm("¿Eliminar este producto?")) return;
+    productos = productos.filter(p=>p.id !== id);
+    guardarTodo();
+    mostrarProductos();
+    actualizarContadores();
+}
+
+/* =====================================================
+   TURNOS Y WHATSAPP AUTOMÁTICO
+===================================================== */
+function guardarTurno(event){
+    event.preventDefault();
+
+    const clientaId = Number(document.getElementById("turnoClienta").value);
+    const servicioId = Number(document.getElementById("turnoServicio").value);
+
+    const clienta = clientas.find(c=>c.id === clientaId);
+    const servicio = servicios.find(s=>s.id === servicioId);
+
+    if(!clienta || !servicio){
+        alert("Primero tenés que cargar la clienta y el servicio.");
+        return;
+    }
+
+    const fecha = document.getElementById("turnoFecha").value;
+    const hora = document.getElementById("turnoHora").value;
+
+    turnos.push({
+        id:idNuevo(),
+        clientaId,
+        clientaNombre:clienta.nombre,
+        servicioId,
+        servicioNombre:servicio.nombre,
+        precio:servicio.precio,
+        fecha,
+        hora,
+        estado:document.getElementById("turnoEstado").value,
+        observaciones:document.getElementById("turnoObservaciones").value.trim()
+    });
+
+    guardarTodo();
+    event.target.reset();
+    document.getElementById("turnoFecha").value = hoy();
+    mostrarTurnos();
+    actualizarContadores();
+}
+
+function enviarRecordatorioWsp(turnoId){
+    const turno = turnos.find(t=>t.id === turnoId);
+    if(!turno) return;
+
+    const clienta = clientas.find(c=>c.id === turno.clientaId);
+    if(!clienta || !clienta.telefono){
+        alert("La clienta no tiene un número de teléfono registrado.");
+        return;
+    }
+
+    // Formatear fecha
+    const partesFecha = turno.fecha.split("-");
+    const fechaFormateada = `${partesFecha[2]}/${partesFecha[1]}`;
+
+    const mensaje = `Hola ${clienta.nombre}! 💕 Te escribo de Sofi Soft para recordarte tu turno de *${turno.servicioNombre}* el día *${fechaFormateada}* a las *${turno.hora} hs*. ¡Te esperamos!`;
+    const numLimpio = clienta.telefono.replace(/[^0-9]/g, "");
+
+    window.open(`https://wa.me/${numLimpio}?text=${encodeURIComponent(mensaje)}`, "_blank");
+}
+
+function mostrarTurnos(){
+    const contenedor = document.getElementById("listaTurnos");
+    if(turnos.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay turnos registrados.</div>`;
+        return;
+    }
+
+    const filtro = document.getElementById("filtroEstadoTurno")?.value || "Todos";
+    const filtrados = turnos.filter(t => filtro === "Todos" || t.estado === filtro);
+
+    if(filtrados.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay turnos con el estado "${filtro}".</div>`;
+        return;
+    }
+
+    const ordenados = [...filtrados].sort((a,b)=> `${a.fecha} ${a.hora}`.localeCompare(`${b.fecha} ${b.hora}`));
+
+    contenedor.innerHTML = ordenados.map(t=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong>${escapar(t.fecha)} · ${escapar(t.hora)} hs</strong><br>
+                    <span>👩 ${escapar(t.clientaNombre)}</span><br>
+                    <span>💅 ${escapar(t.servicioNombre)}</span><br>
+                    <small>${formatear(t.precio)}</small>
+                    ${t.observaciones ? `<br><small>${escapar(t.observaciones)}</small>` : ""}
+                </div>
+                <span class="badge ${t.estado === "Confirmado" ? "badge-verde" : t.estado === "Cancelado" ? "badge-rojo" : "badge-amarillo"}">
+                    ${escapar(t.estado)}
+                </span>
+            </div>
+            <div class="acciones-item">
+                <button class="btn-wsp" onclick="enviarRecordatorioWsp(${t.id})">📲 Recordatorio WhatsApp</button>
+                <button class="btn-verde" onclick="marcarTurno(${t.id},'Confirmado')">Confirmar</button>
+                <button class="btn-amarillo" onclick="marcarTurno(${t.id},'Realizado')">Realizado</button>
+                <button class="btn-rojo" onclick="marcarTurno(${t.id},'Cancelado')">Cancelar</button>
+                <button class="btn-gris" onclick="eliminarTurno(${t.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function marcarTurno(id, estado){
+    const turno = turnos.find(t=>t.id === id);
+    if(!turno) return;
+
+    const estadoAnterior = turno.estado;
+    turno.estado = estado;
+
+    // Si pasa a Realizado por primera vez, sugerir ingreso en finanzas
+    if(estado === "Realizado" && estadoAnterior !== "Realizado"){
+        if(confirm(`¿Querés registrar el ingreso de ${formatear(turno.precio)} automáticamente en Finanzas?`)){
+            ingresos.push({
+                id: idNuevo(),
+                fecha: turno.fecha,
+                clientaId: turno.clientaId,
+                clientaNombre: turno.clientaNombre,
+                servicioId: turno.servicioId,
+                servicioNombre: turno.servicioNombre,
+                concepto: turno.servicioNombre,
+                monto: turno.precio,
+                medio: "Efectivo"
+            });
+            actualizarFinanzas();
+        }
+    }
+
+    guardarTodo();
+    mostrarTurnos();
+    actualizarContadores();
+}
+
+function eliminarTurno(id){
+    if(!confirm("¿Eliminar este turno?")) return;
+    turnos = turnos.filter(t=>t.id !== id);
+    guardarTodo();
+    mostrarTurnos();
+    actualizarContadores();
+}
+
+/* =====================================================
+   SELECTS & CONTADORES
+===================================================== */
+function actualizarSelects(){
+    const turnoClienta = document.getElementById("turnoClienta");
+    const turnoServicio = document.getElementById("turnoServicio");
+    const ingresoClienta = document.getElementById("ingresoClienta");
+    const ingresoServicio = document.getElementById("ingresoServicio");
+
+    if(turnoClienta){
+        turnoClienta.innerHTML = clientas.length
+            ? clientas.map(c=>`<option value="${c.id}">${escapar(c.nombre)}</option>`).join("")
+            : `<option value="">Cargá primero una clienta</option>`;
+    }
+
+    if(turnoServicio){
+        turnoServicio.innerHTML = servicios.length
+            ? servicios.map(s=>`<option value="${s.id}">${escapar(s.nombre)} - ${formatear(s.precio)}</option>`).join("")
+            : `<option value="">Cargá primero un servicio</option>`;
+    }
+
+    if(ingresoClienta){
+        ingresoClienta.innerHTML = `<option value="">Sin clienta</option>` +
+            clientas.map(c=>`<option value="${c.id}">${escapar(c.nombre)}</option>`).join("");
+    }
+
+    if(ingresoServicio){
+        ingresoServicio.innerHTML = `<option value="">Otro / producto</option>` +
+            servicios.map(s=>`<option value="${s.id}">${escapar(s.nombre)}</option>`).join("");
+    }
+}
+
+function actualizarContadores(){
+    document.getElementById("contadorTurnos").textContent = turnos.length;
+    document.getElementById("contadorClientas").textContent = clientas.length;
+    document.getElementById("contadorServicios").textContent = servicios.length;
+    document.getElementById("contadorProductos").textContent = productos.length;
+
+    const totalIngresos = ingresos.reduce((total,i)=>total + Number(i.monto || 0), 0);
+    const totalGastos = gastos.reduce((total,g)=>total + Number(g.monto || 0), 0);
+
+    document.getElementById("contadorIngresos").textContent = formatear(totalIngresos);
+    document.getElementById("contadorGanancia").textContent = formatear(totalIngresos - totalGastos);
+}
+
+/* =====================================================
+   FINANZAS: INGRESOS, GASTOS E INSUMOS
+===================================================== */
+function guardarIngreso(event){
+    event.preventDefault();
+    const fecha = document.getElementById("ingresoFecha").value;
+    const clientaId = Number(document.getElementById("ingresoClienta").value) || null;
+    const servicioId = Number(document.getElementById("ingresoServicio").value) || null;
+
+    const clienta = clientas.find(c=>c.id === clientaId);
+    const servicio = servicios.find(s=>s.id === servicioId);
+
+    let concepto = document.getElementById("ingresoConcepto").value.trim();
+    if(!concepto && servicio) concepto = servicio.nombre;
+    if(!concepto) concepto = "Ingreso";
+
+    const monto = Number(document.getElementById("ingresoMonto").value);
+    const medio = document.getElementById("ingresoMedio").value;
+
+    ingresos.push({
+        id:idNuevo(),
+        fecha,
+        clientaId,
+        clientaNombre: clienta ? clienta.nombre : "",
+        servicioId,
+        servicioNombre: servicio ? servicio.nombre : "",
+        concepto,
+        monto,
+        medio
+    });
+
+    guardarTodo();
+    event.target.reset();
+    document.getElementById("ingresoFecha").value = hoy();
+    actualizarFinanzas();
+    actualizarContadores();
+}
+
+function guardarGasto(event){
+    event.preventDefault();
+    const fecha = document.getElementById("gastoFecha").value;
+    const concepto = document.getElementById("gastoConcepto").value.trim();
+    const categoria = document.getElementById("gastoCategoria").value;
+    const monto = Number(document.getElementById("gastoMonto").value);
+
+    gastos.push({ id:idNuevo(), fecha, concepto, categoria, monto });
+
+    guardarTodo();
+    event.target.reset();
+    document.getElementById("gastoFecha").value = hoy();
+    actualizarFinanzas();
+    actualizarContadores();
+}
+
+function guardarInsumo(event){
+    event.preventDefault();
+    const nombre = document.getElementById("insumoNombre").value.trim();
+    const cantidad = Number(document.getElementById("insumoCantidad").value);
+    const costo = Number(document.getElementById("insumoCosto").value);
+    const unidad = document.getElementById("insumoUnidad").value.trim();
+
+    insumos.push({ id:idNuevo(), nombre, cantidad, costo, unidad, total:cantidad*costo, fecha:hoy() });
+
+    guardarTodo();
+    event.target.reset();
+    mostrarInsumos();
+}
+
+function mostrarInsumos(){
+    const contenedor = document.getElementById("listaInsumos");
+    if(insumos.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay insumos registrados.</div>`;
+        return;
+    }
+
+    contenedor.innerHTML = insumos.map(i=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong>${escapar(i.nombre)}</strong><br>
+                    <small>Cantidad: ${i.cantidad} ${escapar(i.unidad || "")}</small><br>
+                    <small>Costo unitario: ${formatear(i.costo)}</small><br>
+                    <small>Valor total: ${formatear(i.total)}</small>
+                </div>
+            </div>
+            <div class="acciones-item">
+                <button class="btn-rojo" onclick="eliminarInsumo(${i.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function eliminarInsumo(id){
+    if(!confirm("¿Eliminar este insumo?")) return;
+    insumos = insumos.filter(i=>i.id !== id);
+    guardarTodo();
+    mostrarInsumos();
+}
+
+function dentroDelPeriodo(fecha,desde,hasta){
+    if(!desde && !hasta) return true;
+    if(desde && fecha < desde) return false;
+    if(hasta && fecha > hasta) return false;
+    return true;
+}
+
+function actualizarFinanzas(){
+    const desde = document.getElementById("finanzasDesde").value;
+    const hasta = document.getElementById("finanzasHasta").value;
+
+    const ingresosPeriodo = ingresos.filter(i => dentroDelPeriodo(i.fecha,desde,hasta));
+    const gastosPeriodo = gastos.filter(g => dentroDelPeriodo(g.fecha,desde,hasta));
+
+    const totalIngresos = ingresosPeriodo.reduce((total,i)=>total + Number(i.monto || 0), 0);
+    const totalGastos = gastosPeriodo.reduce((total,g)=>total + Number(g.monto || 0), 0);
+    const ganancia = totalIngresos - totalGastos;
+
+    document.getElementById("resumenIngresos").textContent = formatear(totalIngresos);
+    document.getElementById("resumenGastos").textContent = formatear(totalGastos);
+    document.getElementById("resumenGanancia").textContent = formatear(ganancia);
+
+    mostrarIngresos(ingresosPeriodo);
+    mostrarGastos(gastosPeriodo);
+    mostrarInsumos();
+}
+
+function mostrarIngresos(lista){
+    const contenedor = document.getElementById("listaIngresos");
+    if(lista.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay ingresos en este período.</div>`;
+        return;
+    }
+
+    const ordenados = [...lista].sort((a,b)=> b.fecha.localeCompare(a.fecha));
+
+    contenedor.innerHTML = ordenados.map(i=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong>${formatear(i.monto)}</strong><br>
+                    <span>${escapar(i.concepto)}</span><br>
+                    <small>${escapar(i.fecha)} · ${escapar(i.medio)}</small>
+                    ${i.clientaNombre ? `<br><small>👩 ${escapar(i.clientaNombre)}</small>` : ""}
+                    ${i.servicioNombre ? `<br><small>💅 ${escapar(i.servicioNombre)}</small>` : ""}
+                </div>
+            </div>
+            <div class="acciones-item">
+                <button class="btn-rojo" onclick="eliminarIngreso(${i.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function eliminarIngreso(id){
+    if(!confirm("¿Eliminar este ingreso?")) return;
+    ingresos = ingresos.filter(i=>i.id !== id);
+    guardarTodo();
+    actualizarFinanzas();
+    actualizarContadores();
+}
+
+function mostrarGastos(lista){
+    const contenedor = document.getElementById("listaGastos");
+    if(lista.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay gastos en este período.</div>`;
+        return;
+    }
+
+    const ordenados = [...lista].sort((a,b)=> b.fecha.localeCompare(a.fecha));
+
+    contenedor.innerHTML = ordenados.map(g=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong class="egreso">${formatear(g.monto)}</strong><br>
+                    <span>${escapar(g.concepto)}</span><br>
+                    <small>${escapar(g.fecha)} · ${escapar(g.categoria)}</small>
+                </div>
+            </div>
+            <div class="acciones-item">
+                <button class="btn-rojo" onclick="eliminarGasto(${g.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function eliminarGasto(id){
+    if(!confirm("¿Eliminar este gasto?")) return;
+    gastos = gastos.filter(g=>g.id !== id);
+    guardarTodo();
+    actualizarFinanzas();
+    actualizarContadores();
+}
+
+/* =====================================================
+   FILTROS DE PERÍODO FINANCIERO
+===================================================== */
+function periodoHoy(){
+    document.getElementById("finanzasDesde").value = hoy();
+    document.getElementById("finanzasHasta").value = hoy();
+    actualizarFinanzas();
+}
+
+function periodoSemana(){
+    const fecha = new Date();
+    const dia = fecha.getDay();
+    const diferencia = dia === 0 ? 6 : dia - 1;
+    const lunes = new Date(fecha);
+    lunes.setDate(fecha.getDate() - diferencia);
+
+    document.getElementById("finanzasDesde").value = convertirFechaInput(lunes);
+    document.getElementById("finanzasHasta").value = hoy();
+    actualizarFinanzas();
+}
+
+function periodoMes(){
+    const fecha = new Date();
+    const desde = `${fecha.getFullYear()}-${String(fecha.getMonth()+1).padStart(2,"0")}-01`;
+    document.getElementById("finanzasDesde").value = desde;
+    document.getElementById("finanzasHasta").value = hoy();
+    actualizarFinanzas();
+}
+
+function periodoTodo(){
+    document.getElementById("finanzasDesde").value = "";
+    document.getElementById("finanzasHasta").value = "";
+    actualizarFinanzas();
+}
+
+function convertirFechaInput(fecha){
+    const año = fecha.getFullYear();
+    const mes = String(fecha.getMonth()+1).padStart(2,"0");
+    const dia = String(fecha.getDate()).padStart(2,"0");
+    return `${año}-${mes}-${dia}`;
+}
+
+/* =====================================================
+   PROMOCIONES Y VOUCHERS
+===================================================== */
+function guardarPromocion(event){
+    event.preventDefault();
+    const nombre = document.getElementById("promoNombre").value.trim();
+    const tipo = document.getElementById("promoTipo").value;
+    const valor = Number(document.getElementById("promoValor").value) || 0;
+    const desde = document.getElementById("promoDesde").value;
+    const hasta = document.getElementById("promoHasta").value;
+
+    promociones.push({ id:idNuevo(), nombre, tipo, valor, desde, hasta, activa:true, fechaCreacion:hoy() });
+
+    guardarTodo();
+    event.target.reset();
+    mostrarPromociones();
+}
+
+function mostrarPromociones(){
+    const contenedor = document.getElementById("listaPromociones");
+    if(promociones.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay promociones creadas.</div>`;
+        return;
+    }
+
+    contenedor.innerHTML = promociones.map(p=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong>${escapar(p.nombre)}</strong><br>
+                    <span class="badge">${p.tipo === "2x1" ? "2 x 1" : p.valor + "% OFF"}</span><br>
+                    <small>${p.desde ? "Desde " + p.desde : ""}${p.hasta ? " · Hasta " + p.hasta : ""}</small>
+                </div>
+                <span class="badge ${p.activa ? "badge-verde" : "badge-rojo"}">${p.activa ? "Activa" : "Inactiva"}</span>
+            </div>
+            <div class="acciones-item">
+                <button class="${p.activa ? "btn-amarillo" : "btn-verde"}" onclick="cambiarEstadoPromocion(${p.id})">
+                    ${p.activa ? "Desactivar" : "Activar"}
+                </button>
+                <button class="btn-rojo" onclick="eliminarPromocion(${p.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function cambiarEstadoPromocion(id){
+    const promo = promociones.find(p=>p.id === id);
+    if(!promo) return;
+    promo.activa = !promo.activa;
+    guardarTodo();
+    mostrarPromociones();
+}
+
+function eliminarPromocion(id){
+    if(!confirm("¿Eliminar esta promoción?")) return;
+    promociones = promociones.filter(p=>p.id !== id);
+    guardarTodo();
+    mostrarPromociones();
+}
+
+function guardarVoucher(event){
+    event.preventDefault();
+    const codigo = document.getElementById("voucherCodigo").value.trim().toUpperCase();
+    const destinataria = document.getElementById("voucherDestinataria").value.trim();
+    const valor = Number(document.getElementById("voucherValor").value);
+    const vencimiento = document.getElementById("voucherVencimiento").value;
+
+    if(vouchers.some(v=>v.codigo === codigo)){
+        alert("Ese código de voucher ya existe.");
+        return;
+    }
+
+    vouchers.push({ id:idNuevo(), codigo, destinataria, valor, vencimiento, estado:"Disponible", fechaCreacion:hoy() });
+
+    guardarTodo();
+    event.target.reset();
+    mostrarVouchers();
+}
+
+function mostrarVouchers(){
+    const contenedor = document.getElementById("listaVouchers");
+    if(vouchers.length === 0){
+        contenedor.innerHTML = `<div class="vacio">No hay vouchers creados.</div>`;
+        return;
+    }
+
+    contenedor.innerHTML = vouchers.map(v=>`
+        <div class="item">
+            <div class="item-cabecera">
+                <div>
+                    <strong>🎟️ ${escapar(v.codigo)}</strong><br>
+                    <span>Valor: ${formatear(v.valor)}</span>
+                    ${v.destinataria ? `<br><small>Para: ${escapar(v.destinataria)}</small>` : ""}
+                    ${v.vencimiento ? `<br><small>Vence: ${escapar(v.vencimiento)}</small>` : ""}
+                </div>
+                <span class="badge ${v.estado === "Disponible" ? "badge-verde" : "badge-rojo"}">${escapar(v.estado)}</span>
+            </div>
+            <div class="acciones-item">
+                <button class="${v.estado === "Disponible" ? "btn-amarillo" : "btn-verde"}" onclick="usarVoucher(${v.id})">
+                    ${v.estado === "Disponible" ? "Marcar usado" : "Marcar disponible"}
+                </button>
+                <button class="btn-rojo" onclick="eliminarVoucher(${v.id})">Eliminar</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function usarVoucher(id){
+    const voucher = vouchers.find(v=>v.id === id);
+    if(!voucher) return;
+    voucher.estado = voucher.estado === "Disponible" ? "Usado" : "Disponible";
+    guardarTodo();
+    mostrarVouchers();
+}
+
+function eliminarVoucher(id){
+    if(!confirm("¿Eliminar este voucher?")) return;
+    vouchers = vouchers.filter(v=>v.id !== id);
+    guardarTodo();
+    mostrarVouchers();
+}
+
+function generarCodigoVoucher(){
+    const codigo = "SOFI-" + new Date().getFullYear() + "-" + Math.floor(1000 + Math.random()*9000);
+    document.getElementById("voucherCodigo").value = codigo;
+}
+
+/* =====================================================
+   INICIALIZACIÓN
+===================================================== */
+function inicializar(){
+    document.getElementById("turnoFecha").value = hoy();
+    document.getElementById("ingresoFecha").value = hoy();
+    document.getElementById("gastoFecha").value = hoy();
+    document.getElementById("finanzasDesde").value = hoy();
+    document.getElementById("finanzasHasta").value = hoy();
+
+    mostrarClientas();
+    mostrarServicios();
+    mostrarProductos();
+    mostrarTurnos();
+    mostrarInsumos();
+    mostrarPromociones();
+    mostrarVouchers();
+    actualizarSelects();
+    actualizarContadores();
+    actualizarFinanzas();
+}
+
+inicializar();
+</script>
+
+</body>
+</html>
